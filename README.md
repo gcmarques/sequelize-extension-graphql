@@ -228,7 +228,7 @@ type user {
 
 ### Options
 
-* `enums` (String:)
+* `enums` (String?)
   Additional custom enum definitions to be added to the schema. Note: Sequelize.ENUM will be automatically created by this extension.
 * `inputs` (String?)
   Additional custom input definitions to be added to the schema.
