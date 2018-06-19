@@ -30,7 +30,6 @@ describe('enhancers', () => {
 
   after(async () => {
     await sequelize.close();
-    process.exit();
   });
 
   describe('-> graphql', () => {
