@@ -170,7 +170,7 @@ db.User.mutations.create = {
   },
 }
 
-// You can also prevent a CRUD function by setting it to false.
+// You can also exclude a CRUD function by setting it to false.
 db.User.mutations.clone = false;
 
 extend().then(() => {
@@ -215,8 +215,8 @@ type user {
   id: ID!
   username: String
 
-  # Create \[user\]() with a json.
-  create(with: JSON): user!
+  # Create \[user\]() with username and password.
+  create(with: CustomCreateInput!): user!
 
   # Update one [user]() entity with specified attributes (`with`).
   update(with: JSON!): user!
