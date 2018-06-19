@@ -249,3 +249,4 @@ type user {
 [sequelize-extension-updatedBy](https://www.npmjs.com/package/sequelize-extension-updatedBy) - Automatically set `updatedBy` with `options.user.id` option.\
 [sequelize-extension-deletedBy](https://www.npmjs.com/package/sequelize-extension-deletedBy) - Automatically set `deletedBy` with `options.user.id` option.\
 [sequelize-extension-createdBy](https://www.npmjs.com/package/sequelize-extension-createdBy) - Automatically set `createdBy` with `options.user.id` option.
+
