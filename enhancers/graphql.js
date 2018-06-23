@@ -13,10 +13,10 @@ function wrap(gts, fn) {
   };
 }
 
-function getType(attribute, utils) {
+function getType(attribute, utils, idtype) {
   let type = utils.getAttributeType(attribute);
   if (type === 'Id' || type === 'Bigint') {
-    type = 'ID';
+    type = idtype;
   }
   if (type === 'Decimal' || type === 'Double' || type === 'Real') {
     type = 'Float';
@@ -80,7 +80,7 @@ function getResolver(model, type, resolver, gts, utils) {
   return val;
 }
 
-function enhanceModel(model, hooks, settings, gts) {
+function enhanceModel(model, hooks, settings, gts, idtype) {
   const { utils } = settings;
   const name = utils.getName(model);
   const attributes = utils.getRawAttributes(model);
@@ -104,7 +104,7 @@ function enhanceModel(model, hooks, settings, gts) {
 
   _.each(attributes, (attribute, key) => {
     if (!attribute.hidden) {
-      let type = getType(attribute, utils);
+      let type = getType(attribute, utils, idtype);
       if (type === 'Enum') {
         model.graphql.enumCount += 1;
         type = `${name}Enum${model.graphql.enumCount}`;
@@ -210,6 +210,7 @@ function enhanceGraphql(options = {}) {
     entityDeleteSchema: wrap(options.gts, 'entityDeleteSchema'),
     entityDeleteResolver: wrap(options.gts, 'entityDeleteResolver'),
   };
+  const idtype = options.idtype || 'ID';
   return function enhance(db, hooks, settings) {
     const { utils } = settings;
     let methods = '';
@@ -226,7 +227,7 @@ function enhanceGraphql(options = {}) {
 
     _.each(db, (model) => {
       if (utils.isModel(model)) {
-        enhanceModel(model, hooks, settings, gts);
+        enhanceModel(model, hooks, settings, gts, idtype);
         enums += model.graphql.enums;
         inputs += model.graphql.inputs;
         types.push(model.graphql.type());
