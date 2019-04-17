@@ -216,14 +216,19 @@ function enhanceGraphql(options = {}) {
     let methods = '';
     let enums = '';
     let inputs = '';
+    let interfaces = '';
     const types = [];
     const resolvers = {
       UUID: GraphQLToolsTypes.UUID({ name: 'UUID', storage: 'string' }),
       JSON: GraphQLToolsTypes.JSON({ name: 'JSON' }),
       Jsontype: GraphQLToolsTypes.JSON({ name: 'Jsontype' }),
       Date: GraphQLToolsTypes.Date({ name: 'Date' }),
-      root: {},
     };
+    _.each(options.interfaces || {}, (definition, interfaceName) => {
+      resolvers[interfaceName] = definition.resolver;
+      interfaces += definition.schema;
+    });
+    resolvers.root = {};
 
     _.each(db, (model) => {
       if (utils.isModel(model)) {
@@ -250,6 +255,7 @@ function enhanceGraphql(options = {}) {
       ${options.enums || ''}
       ${inputs}
       ${options.inputs || ''}
+      ${interfaces}
       type root {
         ${!resolvers.root.length ? 'noop(with: JSON): JSON' : ''}
         ${methods}
