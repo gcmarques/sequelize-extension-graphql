@@ -99,7 +99,7 @@ function enhanceModel(model, hooks, settings, gts, idtype) {
     },
     enumTable: {},
     resolvers: {},
-    type: () => `type ${name} {\n${model.graphql.attributes}}`,
+    type: () => `type ${name} ${model.implements ? `implements ${model.implements} ` : ''}{\n${model.graphql.attributes}}`,
   };
 
   _.each(attributes, (attribute, key) => {
