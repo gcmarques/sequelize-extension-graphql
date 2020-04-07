@@ -141,7 +141,7 @@ function enhanceModel(model, hooks, settings, gts, idtype) {
     const options = utils.getAssociationOptions(association);
     if (!options.hidden) {
       const targetName = utils.getName(utils.getAssociationTarget(association));
-      model.graphql.attributes += `${key}: ${list ? `[${targetName}]!` : `${targetName}`}\n`;
+      model.graphql.attributes += `${key}(paranoid: Boolean = true): ${list ? `[${targetName}]!` : `${targetName}`}\n`;
       model.graphql.resolvers[key] = gts.entityQueryResolver(name, key, `${targetName}${list ? '*' : ''}`);
     }
   });
